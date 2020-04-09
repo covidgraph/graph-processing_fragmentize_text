@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+
+  run_graph-processing_fragmentize_text:
+    build: .
+    environment:
+      - GC_NEO4J_URL=bolt://host.docker.internal:7687
+      - GC_NEO4J_USER=neo4j
+      - GC_NEO4J_PASSWORD=test
