@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 GC_NEO4J_URL = os.getenv('GC_NEO4J_URL', 'bolt://localhost:7687')
 GC_NEO4J_USER = os.getenv('GC_NEO4J_USER', 'neo4j')
 GC_NEO4J_PASSWORD = os.getenv('GC_NEO4J_PASSWORD', 'test')
+RUN_MODE = os.getenv('RUN_MODE', 'test')
 
 for v in [GC_NEO4J_URL, GC_NEO4J_USER, GC_NEO4J_PASSWORD]:
     log.debug(v)
@@ -63,15 +64,18 @@ MERGE (f2)-[:NEXT]->(f)""".format(label)
 
 
 if __name__ == '__main__':
-    graph = py2neo.Graph(GC_NEO4J_URL, user=GC_NEO4J_USER, password=GC_NEO4J_PASSWORD)
-    log.debug(graph)
+    if RUN_MODE.lower() == 'test':
+        log.info("Run tests")
+    else:
+        graph = py2neo.Graph(GC_NEO4J_URL, user=GC_NEO4J_USER, password=GC_NEO4J_PASSWORD)
+        log.debug(graph)
 
-    # create fragments for Body_text
-    log.debug("Create fragments for Body_text")
+        # create fragments for Body_text
+        log.debug("Create fragments for Body_text")
 
-    for label, prop in [('Body_text', 'text'), ('Abstract', 'text')]:
-        query_fragments_body_text = create_query_fragments_for_node(label, prop)
-        graph.run(query_fragments_body_text)
+        for label, prop in [('Body_text', 'text'), ('Abstract', 'text')]:
+            query_fragments_body_text = create_query_fragments_for_node(label, prop)
+            graph.run(query_fragments_body_text)
 
-        query_link_fragments_body_text = create_query_link_fragments(label)
-        graph.run(query_fragments_body_text)
+            query_link_fragments_body_text = create_query_link_fragments(label)
+            graph.run(query_fragments_body_text)
