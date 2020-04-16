@@ -71,11 +71,11 @@ if __name__ == '__main__':
         log.debug(graph)
 
         # create fragments for Body_text
-        log.debug("Create fragments for Body_text")
+        log.debug("Create fragments for BodyText and Abstract")
 
-        for label, prop in [('Body_text', 'text'), ('Abstract', 'text')]:
-            query_fragments_body_text = create_query_fragments_for_node(label, prop)
-            graph.run(query_fragments_body_text)
+        for label, prop in [('BodyText', 'text'), ('Abstract', 'text')]:
+            query_fragments = create_query_fragments_for_node(label, prop)
+            graph.run(query_fragments)
 
-            query_link_fragments_body_text = create_query_link_fragments(label)
-            graph.run(query_fragments_body_text)
+            query_link_fragments = create_query_link_fragments(label)
+            graph.run(query_link_fragments)
