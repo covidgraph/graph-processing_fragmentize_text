@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 GC_NEO4J_URL = os.getenv('GC_NEO4J_URL', 'bolt://localhost:7687')
 GC_NEO4J_USER = os.getenv('GC_NEO4J_USER', 'neo4j')
 GC_NEO4J_PASSWORD = os.getenv('GC_NEO4J_PASSWORD', 'test')
-RUN_MODE = os.getenv('RUN_MODE', 'test')
+RUN_MODE = os.getenv('RUN_MODE', 'prod')
 
 for v in [GC_NEO4J_URL, GC_NEO4J_USER, GC_NEO4J_PASSWORD]:
     log.debug(v)
