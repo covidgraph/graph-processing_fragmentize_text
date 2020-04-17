@@ -61,6 +61,7 @@ WHERE f2.sequence = f.sequence - 1
 MERGE (f2)-[:NEXT]->(f)""".format(label)
 
     log.debug(q)
+    return q
 
 
 if __name__ == '__main__':
