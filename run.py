@@ -74,7 +74,16 @@ if __name__ == '__main__':
         # create fragments for Body_text
         log.debug("Create fragments for BodyText and Abstract")
 
-        for label, prop in [('BodyText', 'text'), ('Abstract', 'text')]:
+        text_nodes = [
+            ('BodyText', 'text'),
+            ('Abstract', 'text'),
+            ('PatentDescription', 'text'),
+            ('PatentTitle', 'text'),
+            ('PatentAbstract', 'text'),
+            ('PatentClaim', 'text')
+        ]
+
+        for label, prop in text_nodes:
             query_fragments = create_query_fragments_for_node(label, prop)
             graph.run(query_fragments)
 
