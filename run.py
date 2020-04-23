@@ -54,11 +54,13 @@ def create_query_link_fragments(label):
     """
     log.debug("Create query to link fragments from {}".format(label))
 
-    q = """MATCH (f:Fragment:{0})
-WHERE f.sequence > 0
-MATCH (f)<--(n)-->(f2:Fragment:From{0})
-WHERE f2.sequence = f.sequence - 1
-MERGE (f2)-[:NEXT]->(f)""".format(label)
+    q = """CALL apoc.periodic.iterate(
+    \"MATCH (f:Fragment:{0}) WHERE f.sequence > 0 RETURN f\",
+    \"MATCH (f)<--(n)-->(f2:Fragment:{0}})
+    WHERE f2.sequence = f.sequence - 1
+    MERGE (f2)-[:NEXT]->(f)\",
+    {batchSize: 1000, iterateList: true, parallel: true}
+)""".format(label)
 
     log.debug(q)
     return q
@@ -70,6 +72,9 @@ if __name__ == '__main__':
     else:
         graph = py2neo.Graph(GC_NEO4J_URL, user=GC_NEO4J_USER, password=GC_NEO4J_PASSWORD)
         log.debug(graph)
+
+        # create index
+        graph.run("CREATE INDEX ON :Fragment(sequence")
 
         # create fragments for Body_text
         log.debug("Create fragments for BodyText and Abstract")
