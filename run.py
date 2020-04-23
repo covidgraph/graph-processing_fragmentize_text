@@ -74,7 +74,7 @@ if __name__ == '__main__':
         log.debug(graph)
 
         # create index
-        graph.run("CREATE INDEX ON :Fragment(sequence")
+        graph.run("CREATE INDEX ON :Fragment(sequence)")
 
         # create fragments for Body_text
         log.debug("Create fragments for BodyText and Abstract")
