@@ -56,7 +56,7 @@ def create_query_link_fragments(label):
 
     q = """CALL apoc.periodic.iterate(
     \"MATCH (f:Fragment:{0}) WHERE f.sequence > 0 RETURN f\",
-    \"MATCH (f)<--(n)-->(f2:Fragment:{0}})
+    \"MATCH (f)<--(n)-->(f2:Fragment:{0})
     WHERE f2.sequence = f.sequence - 1
     MERGE (f2)-[:NEXT]->(f)\",
     {batchSize: 1000, iterateList: true, parallel: true}
