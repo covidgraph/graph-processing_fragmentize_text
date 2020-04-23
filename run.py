@@ -30,7 +30,7 @@ def create_query_fragments_for_node(label, text_property):
     log.debug("Create qeuery for label {}, text property {}".format(label, text_property))
 
     q = """CALL apoc.periodic.iterate(
-\"MATCH (text_node:{0}) WHERE NOT text_node:CollectionHub RETURN text_node\",
+\"MATCH (text_node:{0}) WHERE NOT text_node:CollectionHub AND NOT (text_node)-[:HAS_FRAGMENT]-() RETURN text_node\",
 \"WITH text_node,split(text_node.{1}, '. ') AS frags
 WHERE size(frags) > 0
 WITH text_node,frags,range(0,size(frags)-1) AS r
