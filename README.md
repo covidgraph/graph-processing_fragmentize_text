@@ -1,4 +1,4 @@
-# create :Fragement nodes for publications
+# create :Fragment nodes for publications
 
 ## Body_text
 ```
