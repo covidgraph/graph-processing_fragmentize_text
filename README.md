@@ -1,4 +1,11 @@
-# create :Fragement nodes for publications
+# Requirements
+## Client
+py2neo
+
+## Server
+The Neo4J server needs to have APOC installed. Just grab the version you need from https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/ and put it in the plugins/ directory of your Neo4J installation.
+
+# create :Fragment nodes for publications
 
 ## Body_text
 ```
