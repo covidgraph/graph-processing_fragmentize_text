@@ -27,7 +27,7 @@ def create_query_fragments_for_node(label, text_property):
     :param text_property: Name of the property containing the text
     :return: Query to create :Fragment nodes
     """
-    log.debug("Create qeuery for label {}, text property {}".format(label, text_property))
+    log.debug("Create query for label {}, text property {}".format(label, text_property))
 
     q = """CALL apoc.periodic.iterate(
 \"MATCH (text_node:{0}) WHERE NOT text_node:CollectionHub AND NOT (text_node)-[:HAS_FRAGMENT]-() RETURN text_node\",
