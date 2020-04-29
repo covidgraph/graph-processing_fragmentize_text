@@ -59,7 +59,7 @@ def create_query_link_fragments(label):
     \"MATCH (f)<--(n)-->(f2:Fragment:From{0})
     WHERE f2.sequence = f.sequence - 1
     MERGE (f2)-[:NEXT]->(f)\",
-    {{batchSize: 1000, iterateList: true, parallel: true}}
+    {{batchSize: 50, iterateList: true, parallel: true}}
 )""".format(label)
 
     log.debug(q)
