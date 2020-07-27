@@ -92,5 +92,5 @@ if __name__ == '__main__':
             query_fragments = create_query_fragments_for_node(label, prop)
             graph.run(query_fragments)
 
-            query_link_fragments = create_query_link_fragments(label)
-            graph.run(query_link_fragments)
+            #query_link_fragments = create_query_link_fragments(label)
+            #graph.run(query_link_fragments)
