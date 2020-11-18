@@ -82,7 +82,10 @@ if __name__ == '__main__':
         log.debug(graph)
 
         # create index
-        graph.run("CREATE INDEX ON :Fragment(sequence)")
+        try:
+            graph.run("CREATE INDEX ON :Fragment(sequence)")
+        except py2neo.database.work.ClientError:
+            log.info("Create index on :Fragment(sequence) fails, likely Neo4j 4 which throws error when trying to create existing index.")
 
         # create fragments for Body_text
         log.debug("Create fragments for BodyText and Abstract")
