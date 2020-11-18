@@ -1,6 +1,7 @@
 import os
 import logging
 import py2neo
+import json
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('py2neo.connect.bolt').setLevel(logging.WARNING)
@@ -10,13 +11,20 @@ logging.getLogger('neobolt').setLevel(logging.WARNING)
 
 log = logging.getLogger(__name__)
 
-GC_NEO4J_URL = os.getenv('GC_NEO4J_URL', 'bolt://localhost:7687')
-GC_NEO4J_USER = os.getenv('GC_NEO4J_USER', 'neo4j')
-GC_NEO4J_PASSWORD = os.getenv('GC_NEO4J_PASSWORD', 'test')
-RUN_MODE = os.getenv('RUN_MODE', 'prod')
+NEO4J_CONFIG_STRING = os.getenv("NEO4J")
 
-for v in [GC_NEO4J_URL, GC_NEO4J_USER, GC_NEO4J_PASSWORD]:
-    log.debug(v)
+try:
+    log.info(NEO4J_CONFIG_STRING)
+    NEO4J_CONFIG_DICT = json.loads(NEO4J_CONFIG_STRING)
+except json.decoder.JSONDecodeError:
+    # try to replace single quotes with double quotes
+    # JSON always expects double quotes, common mistake when writing JSON strings
+    NEO4J_CONFIG_STRING = NEO4J_CONFIG_STRING.replace("'", '"')
+    log.info(NEO4J_CONFIG_STRING)
+    NEO4J_CONFIG_DICT = json.loads(NEO4J_CONFIG_STRING)
+
+log.info(f'dict {NEO4J_CONFIG_DICT}')
+RUN_MODE = os.getenv('RUN_MODE', 'prod')
 
 
 def create_query_fragments_for_node(label, text_property):
@@ -70,7 +78,7 @@ if __name__ == '__main__':
     if RUN_MODE.lower() == 'test':
         log.info("Run tests")
     else:
-        graph = py2neo.Graph(GC_NEO4J_URL, user=GC_NEO4J_USER, password=GC_NEO4J_PASSWORD)
+        graph = py2neo.Graph(**NEO4J_CONFIG_DICT)
         log.debug(graph)
 
         # create index
